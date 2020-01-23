@@ -30,7 +30,8 @@ class OurActor(actorcore.Actor.Actor):
                              ALTITUDE=85.0)
         self.gen2keys['FOC-VAL'] = 0.0
         self.gen2keys['INST-PA'] = 0.0
-        self.gen2keys['ADC-TYP'] = 'POPT_2'
+        self.gen2keys['INR-STR'] = 0.0
+        self.gen2keys['ADC-TYPE'] = 'POPT_2'
         self.gen2keys['ADC-STR'] = 0.0
 
         self.gen2keys['DOM-HUM'] = 30.0
@@ -42,7 +43,7 @@ class OurActor(actorcore.Actor.Actor):
         self.gen2keys['OUT-TMP'] = 11.0
         self.gen2keys['OUT-WND'] = 3.0
 
-    def _genActorKeys(self, cmd, doGen2Refresh=False):
+    def _gen2ActorKeys(self, cmd, doGen2Refresh=False):
         """Generate all gen2 status keys.
 
         For this actor, this might get called from either the gen2 or the MHS sides.
@@ -57,7 +58,7 @@ class OurActor(actorcore.Actor.Actor):
         """
 
         def gk(name, cmd=cmd):
-            return self._getGen2Key(cmd, name)
+            return self.gen2keys[name]
 
         if doGen2Refresh:
             self.gen2.update_header_stat()
