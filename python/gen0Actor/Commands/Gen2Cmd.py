@@ -26,7 +26,8 @@ class Gen2Cmd(object):
         # Define typed command arguments for the above commands.
         self.keys = keys.KeysDictionary("core_core", (1, 1),
                                         keys.Key("expType",
-                                                 types.Enum('bias', 'dark', 'arc', 'flat', 'object'),
+                                                 types.Enum('bias', 'dark', 'arc', 'flat',
+                                                            'object', 'acquisition'),
                                                  help='exposure type for FITS header'),
                                         keys.Key("expTime", types.Float(),
                                                  help='exposure time'),
