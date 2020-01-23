@@ -48,7 +48,22 @@ class Gen2Cmd(object):
         expType = cmdKeys['expType'].values[0]
 
         hdr = pyfits.Header()
-        hdr['GARBAGE'] = True
+
+        hdr['W_GEN2ID'] = 'dummy'
+        hdr.set('FRAMEID', frameId, "Image ID")
+        if frameId.startswith('PFS'):
+            try:
+                framenum = frameId[4:]
+                visit = int(framenum[:6], base=10)
+            except:
+                visit = 0
+            hdr.set('EXP-ID', '%sE%06d00' % (frameId[:3], visit),
+                    "Exposure/visit ID")
+            hdr.set('W_VISIT', visit, 'PFS visit')
+
+        # exposure time
+        hdr.set('EXPTIME',float(expTime), "[sec] Total integration time of the frame")
+        hdr.set('DATA-TYP', expType.upper(), "Subaru-style exp. type")
 
         hdrString = base64.b64encode(hdr.tostring().encode('latin-1')).decode('latin-1')
         cmd.inform('header=%s' % (repr(hdrString)))
